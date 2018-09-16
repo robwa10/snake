@@ -14,12 +14,12 @@ def run_game():
     pygame.display.set_caption("Snake")
 
     # Make a snake.
-    snake = Snake(screen)
+    snake = Snake(screen, settings)
 
     # Start the main loop for the game.
     while True:
         gf.check_events()
-        gf.update_screen(settings, screen, snake)
+        gf.update_screen(screen, settings, snake)
 
 
 run_game()
