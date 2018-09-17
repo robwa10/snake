@@ -18,7 +18,8 @@ def run_game():
 
     # Start the main loop for the game.
     while True:
-        gf.check_events()
+        gf.check_events(snake)
+        snake.update()
         gf.update_screen(screen, settings, snake)
 
 
