@@ -12,4 +12,4 @@ class Settings():
         self.snake_width = 10
         self.snake_height = 10
         self.color = (0, 0, 0)
-        self.snake_speed_factor = .5
+        self.snake_speed_factor = 5.5

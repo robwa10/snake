@@ -31,11 +31,12 @@ class Snake():
 
     def update(self):
         """Update the snake's position based on direction."""
-        if self.rect.right > self.screen_rect.right or
-            self.rect.left > self.screen_rect.left or
-            self.rect.top > self.screen_rect.top or
-            self.rect.bottom > self.screen_rect.bottom:
-                print("You hit the edge!")
+        if (self.rect.right >= self.screen_rect.right
+            or self.rect.left <= self.screen_rect.left
+            or self.rect.top <= self.screen_rect.top
+            or self.rect.bottom >= self.screen_rect.bottom):
+            # End the game if the snake hit's the screen edge.
+            print("You hit the edge!")
         else:
             if self.direction is "right":
                 self.centerx += self.settings.snake_speed_factor
