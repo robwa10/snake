@@ -11,5 +11,10 @@ class Settings():
         # Snake settings
         self.snake_width = 10
         self.snake_height = 10
-        self.color = (0, 0, 0)
-        self.snake_speed_factor = 5.5
+        self.snake_color = (0, 0, 0)
+        self.snake_speed_factor = 1.5
+
+        # Snake food settings
+        self.food_width = 5
+        self.food_height = 5
+        self.food_color = (0, 0, 0)

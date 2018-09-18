@@ -2,6 +2,8 @@ import sys
 
 import pygame
 
+from food import Food
+
 
 def check_keydown_events(event, snake):
     """Respond to key presses."""
@@ -17,7 +19,7 @@ def check_keydown_events(event, snake):
         snake.direction = "down"
 
 
-def check_events(snake):
+def check_events(food, screen, settings, snake):
     """Respond to keypresses and mouse events."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -26,11 +28,25 @@ def check_events(snake):
             check_keydown_events(event, snake)
 
 
-def update_screen(screen, settings, snake):
+def check_food_amount(food, screen, settings):
+    """Check if there is any food on the screen."""
+    if len(food.sprites()) == 0:
+        for x in range(5):
+            new_food = Food(screen, settings)
+            food.add(new_food)
+
+
+def update_screen(food, screen, settings, snake):
     """Update images on the screen and flip to the new screen."""
     # Redraw the screen during each pass through the loop.
     screen.fill(settings.bg_color)
+
+    # Redraw the snake at it's new position.
     snake.draw_snake(settings)
+
+    # Redraw all the food.
+    for food in food.sprites():
+        food.draw_food()
 
     # Make the most recently drawn screen visible.
     pygame.display.flip()

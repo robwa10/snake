@@ -1,4 +1,5 @@
 import pygame
+from pygame.sprite import Group
 
 import game_functions as gf
 from settings import Settings
@@ -15,12 +16,15 @@ def run_game():
 
     # Make a snake.
     snake = Snake(screen, settings)
+    # Make a group to store food in.
+    food = Group()
 
     # Start the main loop for the game.
     while True:
-        gf.check_events(snake)
+        gf.check_events(food, screen, settings, snake)
+        gf.check_food_amount(food, screen, settings)
         snake.update()
-        gf.update_screen(screen, settings, snake)
+        gf.update_screen(food, screen, settings, snake)
 
 
 run_game()

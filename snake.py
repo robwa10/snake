@@ -27,7 +27,7 @@ class Snake():
 
     def draw_snake(self, settings):
         """Draw the snake to the screen."""
-        pygame.draw.rect(self.screen, settings.color, self.rect)
+        pygame.draw.rect(self.screen, settings.snake_color, self.rect)
 
     def update(self):
         """Update the snake's position based on direction."""
