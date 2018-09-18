@@ -22,7 +22,7 @@ def run_game():
     # Start the main loop for the game.
     while True:
         gf.check_events(food, screen, settings, snake)
-        gf.check_food_amount(food, screen, settings)
+        gf.check_snake_food_collisions(food, screen, settings, snake)
         snake.update()
         gf.update_screen(food, screen, settings, snake)
 

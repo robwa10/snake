@@ -28,12 +28,20 @@ def check_events(food, screen, settings, snake):
             check_keydown_events(event, snake)
 
 
-def check_food_amount(food, screen, settings):
+def create_snake_food(food, screen, settings):
     """Check if there is any food on the screen."""
+    for x in range(settings.food_allowed):
+        new_food = Food(screen, settings)
+        food.add(new_food)
+
+
+def check_snake_food_collisions(food, screen, settings, snake):
+    """Check if the snake has collided with the food."""
+    pygame.sprite.spritecollide(snake, food, True)
+
+    # Create more food if it's all gone.
     if len(food.sprites()) == 0:
-        for x in range(5):
-            new_food = Food(screen, settings)
-            food.add(new_food)
+        create_snake_food(food, screen, settings)
 
 
 def update_screen(food, screen, settings, snake):

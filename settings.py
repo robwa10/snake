@@ -18,3 +18,4 @@ class Settings():
         self.food_width = 5
         self.food_height = 5
         self.food_color = (0, 0, 0)
+        self.food_allowed = 5
