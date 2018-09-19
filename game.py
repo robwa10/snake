@@ -3,7 +3,6 @@ from pygame.sprite import Group
 
 import game_functions as gf
 from settings import Settings
-from snake import Snake
 
 
 def run_game():
@@ -14,17 +13,17 @@ def run_game():
                                      settings.screen_height))
     pygame.display.set_caption("Snake")
 
-    # Make a snake.
-    snake = Snake(screen, settings)
-    # Make a group to store food in.
+    # Make a group of food and snake rects.
     food = Group()
+    snake_body = Group()
+
+    # Create the snake body.
+    gf.create_snake_body(settings, screen, snake_body)
 
     # Start the main loop for the game.
     while True:
-        gf.check_events(food, screen, settings, snake)
-        gf.check_snake_food_collisions(food, screen, settings, snake)
-        snake.update()
-        gf.update_screen(food, screen, settings, snake)
+        gf.check_events(food, screen, settings)
+        gf.update_screen(food, screen, settings, snake_body)
 
 
 run_game()
