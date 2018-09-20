@@ -53,12 +53,8 @@ def create_snake_body(screen, settings, snake_body, snake_list):
                            snake_list)
 
 
-def move_snake(screen, settings, snake_body, snake_list):
-    """Remove the last snake piece and create a new one on the front."""
-    # Remove the last snake pice from the group.
-    last_piece = snake_list.pop()
-    snake_body.remove(last_piece)
-
+def move_pieces(screen, settings, snake_body, snake_list):
+    """Move the snake pieces to new position."""
     # Decide the coordinates of the new piece.
     x = snake_list[0].rect.x + settings.x_change
     y = snake_list[0].rect.y + settings.y_change
@@ -69,19 +65,35 @@ def move_snake(screen, settings, snake_body, snake_list):
     snake_body.add(new_piece)
 
 
+def move_snake(screen, settings, snake_body, snake_list):
+    """Remove the last snake piece and create a new one on the front."""
+    # Remove the last snake pice from the group.
+    if not settings.food_collision:
+        last_piece = snake_list.pop()
+        snake_body.remove(last_piece)
+        move_pieces(screen, settings, snake_body, snake_list)
+    else:
+        settings.food_collision = False
+        move_pieces(screen, settings, snake_body, snake_list)
+
+
 def create_snake_food(food, screen, settings):
-    """Check if there is any food on the screen."""
+    """Create snake food on the screen if there is none."""
     if len(food.sprites()) == 0:
         for x in range(settings.food_allowed):
             new_food = Food(screen, settings)
             food.add(new_food)
 
 
-def check_snake_food_collisions(food, screen, settings, snake):
+def check_snake_food_collisions(food, screen, settings, snake_body):
     """Check if the snake has collided with the food."""
-    collision = pygame.sprite.spritecollide(snake, food, True)
+    collision = pygame.sprite.groupcollide(snake_body, food, False, True)
     if collision:
-        settings.snake_length += 1
+        # Add another rect to the snake body.
+        settings.food_collision = True
+
+        # Check if all the food is gone, draw more if it is.
+        create_snake_food(food, screen, settings)
 
 
 def update_screen(food, screen, settings, snake_body):

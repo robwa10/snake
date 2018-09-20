@@ -15,8 +15,11 @@ class Settings():
         self.snake_color = (0, 0, 0)
 
         # Set the snake speed and default direction.
-        self.speed = 300
+        self.speed = 250
         self.direction = "right"
+
+        # Snake and food collisions
+        self.food_collision = False
 
         # Set the initial snake direction to the right
         self.x_change = self.piece_width
