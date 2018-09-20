@@ -25,6 +25,7 @@ def run_game():
 
     # Start the main loop for the game.
     while True:
+        gf.create_snake_food(food, screen, settings)
         gf.check_events(food, screen, settings)
         gf.move_snake(screen, settings, snake_body, snake_list)
         gf.update_screen(food, screen, settings, snake_body)

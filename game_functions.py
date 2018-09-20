@@ -71,9 +71,10 @@ def move_snake(screen, settings, snake_body, snake_list):
 
 def create_snake_food(food, screen, settings):
     """Check if there is any food on the screen."""
-    for x in range(settings.food_allowed):
-        new_food = Food(screen, settings)
-        food.add(new_food)
+    if len(food.sprites()) == 0:
+        for x in range(settings.food_allowed):
+            new_food = Food(screen, settings)
+            food.add(new_food)
 
 
 def check_snake_food_collisions(food, screen, settings, snake):
@@ -92,9 +93,8 @@ def update_screen(food, screen, settings, snake_body):
     for piece in snake_body.sprites():
         piece.draw_snake_rect()
 
-    # Create more food if it's all gone.
-    if len(food.sprites()) == 0:
-        create_snake_food(food, screen, settings)
+    for n in food.sprites():
+        n.draw_food()
 
     # Make the most recently drawn screen visible.
     pygame.display.flip()

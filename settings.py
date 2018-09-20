@@ -14,7 +14,7 @@ class Settings():
         self.snake_length = 3
         self.snake_color = (0, 0, 0)
 
-        # For the snake speed and default direction.
+        # Set the snake speed and default direction.
         self.speed = 300
         self.direction = "right"
 

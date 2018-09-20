@@ -11,8 +11,8 @@ class Food(Sprite):
         self.screen = screen
 
         self.rect = pygame.Rect((0, 0), settings.food_block)
-        self.rect.centerx = randint(5, 1195)
-        self.rect.centery = randint(5, 795)
+        self.rect.centerx = randint(5, settings.screen_width - 10)
+        self.rect.centery = randint(5, settings.screen_height - 10)
 
         self.y = float(self.rect.y)
 
