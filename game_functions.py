@@ -6,10 +6,26 @@ from food import Food
 from snake import Snake
 
 
-def check_keydown_events(event):
+def check_keydown_events(event, settings):
     """Respond to key presses."""
     if event.key == pygame.K_q:
         sys.exit()
+    elif event.key == pygame.K_LEFT and settings.direction != "right":
+        settings.x_change = settings.piece_width * -1
+        settings.y_change = 0
+        settings.direction = "left"
+    elif event.key == pygame.K_RIGHT and settings.direction != "left":
+        settings.x_change = settings.piece_width
+        settings.y_change = 0
+        settings.direction = "right"
+    elif event.key == pygame.K_UP and settings.direction != "down":
+        settings.x_change = 0
+        settings.y_change = settings.piece_height * -1
+        settings.direction = "up"
+    elif event.key == pygame.K_DOWN and settings.direction != "up":
+        settings.x_change = 0
+        settings.y_change = settings.piece_height
+        settings.direction = "down"
 
 
 def check_events(food, screen, settings):
@@ -18,22 +34,39 @@ def check_events(food, screen, settings):
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event)
+            check_keydown_events(event, settings)
 
 
-def create_snake_piece(piece_number, settings, screen, snake_body):
+def create_snake_piece(piece_number, screen, settings, snake_body, snake_list):
     """Create a piece of the snake and place it in the group."""
-    new_piece = Snake(screen, settings)
-    new_piece_width = new_piece.rect.width
-    new_piece.x = new_piece_width * piece_number
-    new_piece.rect.x = new_piece.x
+    x = settings.piece_width * piece_number
+    y = settings.piece_height
+    new_piece = Snake(screen, settings, x, y)
+    snake_list.append(new_piece)
     snake_body.add(new_piece)
 
 
-def create_snake_body(settings, screen, snake_body):
+def create_snake_body(screen, settings, snake_body, snake_list):
     """Create the full snake body."""
     for piece_number in range(settings.snake_length):
-        create_snake_piece(piece_number, settings, screen, snake_body)
+        create_snake_piece(piece_number, screen, settings, snake_body,
+                           snake_list)
+
+
+def move_snake(screen, settings, snake_body, snake_list):
+    """Remove the last snake piece and create a new one on the front."""
+    # Remove the last snake pice from the group.
+    last_piece = snake_list.pop()
+    snake_body.remove(last_piece)
+
+    # Decide the coordinates of the new piece.
+    x = snake_list[0].rect.x + settings.x_change
+    y = snake_list[0].rect.y + settings.y_change
+    new_piece = Snake(screen, settings, x, y)
+
+    # Place the new one in the group and list.
+    snake_list.insert(0, new_piece)
+    snake_body.add(new_piece)
 
 
 def create_snake_food(food, screen, settings):

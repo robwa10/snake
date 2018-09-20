@@ -17,13 +17,19 @@ def run_game():
     food = Group()
     snake_body = Group()
 
+    # An array to hold snake pieces for removing later.
+    snake_list = []
+
     # Create the snake body.
-    gf.create_snake_body(settings, screen, snake_body)
+    gf.create_snake_body(screen, settings, snake_body, snake_list)
 
     # Start the main loop for the game.
     while True:
         gf.check_events(food, screen, settings)
+        gf.move_snake(screen, settings, snake_body, snake_list)
         gf.update_screen(food, screen, settings, snake_body)
+
+        pygame.time.wait(settings.speed)
 
 
 run_game()
