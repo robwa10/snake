@@ -37,11 +37,16 @@ def check_events(food, screen, settings):
             check_keydown_events(event, settings)
 
 
-def check_wall_collision(screen, settings, snake_body):
+def check_wall_or_self_collision(screen, settings, snake_body, snake_list):
     """Check if the snake hit the screen edge."""
     for piece in snake_body.sprites():
         if piece.check_edges():
             print("Hit an edge!!!")
+            break
+    for i in range(1, len(snake_list)):
+        if (snake_list[0].rect.x == snake_list[i].rect.x and 
+                snake_list[0].rect.y == snake_list[i].rect.y):
+            print("Snake collision")
             break
 
 
@@ -83,7 +88,7 @@ def move_snake(screen, settings, snake_body, snake_list):
     else:
         settings.food_collision = False
         move_pieces(screen, settings, snake_body, snake_list)
-    check_wall_collision(screen, settings, snake_body)
+    check_wall_or_self_collision(screen, settings, snake_body, snake_list)
 
 
 def create_snake_food(food, screen, settings):
