@@ -4,8 +4,8 @@ class Settings():
     def __init__(self):
         """Initialize the game settings."""
         # Screen settings
-        self.screen_width = 600
-        self.screen_height = 600
+        self.screen_width = 400
+        self.screen_height = 400
         self.bg_color = (240, 240, 240)
 
         # Snake settings
@@ -15,7 +15,7 @@ class Settings():
         self.snake_color = (0, 0, 0)
 
         # Set the snake speed and starting direction
-        self.speed = 200
+        self.speed = .200
         self.direction = "right"
 
         # Snake and food collisions

@@ -44,10 +44,11 @@ def food_collision(food, settings, snake_list):
             # Remove the food piece
             food.remove(sprite)
             settings.food_collision = True
+            settings.snake_length += 1
 
             # Raise the snake speed.
             if settings.speed >= 10:
-                settings.speed -= 1
+                settings.speed -= 2
 
 
 def screen_collision(screen, snake_list):

@@ -1,3 +1,5 @@
+from time import sleep
+
 import pygame
 from pygame.sprite import Group
 
@@ -31,7 +33,7 @@ def run_game():
         gf.check_snake_food(food, screen, settings)
         gf.update_screen(food, screen, settings, snake_body)
 
-        pygame.time.wait(settings.speed)
+        sleep(settings.speed)
 
 
 run_game()
