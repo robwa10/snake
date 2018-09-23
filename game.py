@@ -28,6 +28,7 @@ def run_game():
         gf.check_events(food, screen, settings)
         gf.move_snake(food, screen, settings, snake_body, snake_list)
         gf.check_collisions(food, screen, settings, snake_list)
+        gf.check_snake_food(food, screen, settings)
         gf.update_screen(food, screen, settings, snake_body)
 
         pygame.time.wait(settings.speed)

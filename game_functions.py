@@ -45,6 +45,10 @@ def food_collision(food, settings, snake_list):
             food.remove(sprite)
             settings.food_collision = True
 
+            # Raise the snake speed.
+            if settings.speed >= 10:
+                settings.speed -= 1
+
 
 def screen_collision(screen, snake_list):
     """Check if the snake collided with the screen edge."""
@@ -112,11 +116,12 @@ def move_snake(food, screen, settings, snake_body, snake_list):
         move_pieces(screen, settings, snake_body, snake_list)
 
 
-def create_snake_food(food, screen, settings):
+def check_snake_food(food, screen, settings):
     """Create snake food on the screen if there is none."""
-    for x in range(settings.food_allowed):
-        new_food = Food(screen, settings)
-        food.add(new_food)
+    if len(food.sprites()) == 0:
+        for x in range(settings.food_allowed):
+            new_food = Food(screen, settings)
+            food.add(new_food)
 
 
 def update_screen(food, screen, settings, snake_body):
@@ -127,9 +132,6 @@ def update_screen(food, screen, settings, snake_body):
     # Redraw the snake at it's new position.
     for piece in snake_body.sprites():
         piece.draw_snake_rect()
-
-    if len(food.sprites()) == 0:
-        create_snake_food(food, screen, settings)
 
     for n in food.sprites():
         n.draw_food()

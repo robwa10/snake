@@ -26,6 +26,6 @@ class Settings():
         self.y_change = 0
 
         # Snake food settings
-        self.food_block = (5, 5)
+        self.food_block = (8, 8)
         self.food_color = (0, 0, 0)
         self.food_allowed = 5
