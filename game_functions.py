@@ -37,44 +37,44 @@ def check_events(food, screen, settings):
             check_keydown_events(event, settings)
 
 
-def food_collision(food, settings, snake_list):
+def food_collision(food, settings, snake_list, stats):
     """Check if the snake collided with food."""
     for sprite in food.sprites():
         if sprite.rect.colliderect(snake_list[0]):
             # Remove the food piece
             food.remove(sprite)
             settings.food_collision = True
-            settings.snake_length += 1
+            stats.total_pieces += 1
 
             # Raise the snake speed.
             if settings.speed >= 10:
                 settings.speed -= 2
 
 
-def screen_collision(screen, snake_list):
+def screen_collision(screen, snake_list, stats):
     """Check if the snake collided with the screen edge."""
     screen_rect = screen.get_rect()
     if (snake_list[0].rect.right > screen_rect.right or
         snake_list[0].rect.left < 0 or
         snake_list[0].rect.top < 0 or
         snake_list[0].rect.bottom > screen_rect.bottom):
-        print("Hit an edge!!!")
+        stats.game_active = False
 
 
-def self_collision(snake_list):
+def self_collision(snake_list, stats):
     """Check if the snake hit itself."""
     for i in range(1, len(snake_list)):
         if (snake_list[0].rect.x == snake_list[i].rect.x and 
                 snake_list[0].rect.y == snake_list[i].rect.y):
-            print("Snake collision")
+            stats.game_active = False
             break
 
 
-def check_collisions(food, screen, settings, snake_list):
+def check_collisions(food, screen, settings, snake_list, stats):
     """Check if the snake collided with food, the screen edge or itself."""
-    food_collision(food, settings, snake_list)
-    screen_collision(screen, snake_list)
-    self_collision(snake_list)
+    food_collision(food, settings, snake_list, stats)
+    screen_collision(screen, snake_list, stats)
+    self_collision(snake_list, stats)
 
 
 def create_snake_piece(piece_number, screen, settings, snake_body, snake_list):
