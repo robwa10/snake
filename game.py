@@ -25,10 +25,9 @@ def run_game():
 
     # Start the main loop for the game.
     while True:
-        gf.create_snake_food(food, screen, settings)
         gf.check_events(food, screen, settings)
-        gf.check_snake_food_collisions(food, screen, settings, snake_body)
-        gf.move_snake(screen, settings, snake_body, snake_list)
+        gf.move_snake(food, screen, settings, snake_body, snake_list)
+        gf.check_collisions(food, screen, settings, snake_list)
         gf.update_screen(food, screen, settings, snake_body)
 
         pygame.time.wait(settings.speed)

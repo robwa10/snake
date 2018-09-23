@@ -37,17 +37,39 @@ def check_events(food, screen, settings):
             check_keydown_events(event, settings)
 
 
-def check_wall_or_self_collision(screen, settings, snake_body, snake_list):
-    """Check if the snake hit the screen edge."""
-    for piece in snake_body.sprites():
-        if piece.check_edges():
-            print("Hit an edge!!!")
-            break
+def food_collision(food, settings, snake_list):
+    """Check if the snake collided with food."""
+    for sprite in food.sprites():
+        if sprite.rect.colliderect(snake_list[0]):
+            # Remove the food piece
+            food.remove(sprite)
+            settings.food_collision = True
+
+
+def screen_collision(screen, snake_list):
+    """Check if the snake collided with the screen edge."""
+    screen_rect = screen.get_rect()
+    if (snake_list[0].rect.right > screen_rect.right or
+        snake_list[0].rect.left < 0 or
+        snake_list[0].rect.top < 0 or
+        snake_list[0].rect.bottom > screen_rect.bottom):
+        print("Hit an edge!!!")
+
+
+def self_collision(snake_list):
+    """Check if the snake hit itself."""
     for i in range(1, len(snake_list)):
         if (snake_list[0].rect.x == snake_list[i].rect.x and 
                 snake_list[0].rect.y == snake_list[i].rect.y):
             print("Snake collision")
             break
+
+
+def check_collisions(food, screen, settings, snake_list):
+    """Check if the snake collided with food, the screen edge or itself."""
+    food_collision(food, settings, snake_list)
+    screen_collision(screen, snake_list)
+    self_collision(snake_list)
 
 
 def create_snake_piece(piece_number, screen, settings, snake_body, snake_list):
@@ -78,7 +100,7 @@ def move_pieces(screen, settings, snake_body, snake_list):
     snake_body.add(new_piece)
 
 
-def move_snake(screen, settings, snake_body, snake_list):
+def move_snake(food, screen, settings, snake_body, snake_list):
     """Remove the last snake piece and create a new one on the front."""
     # Remove the last snake pice from the group.
     if not settings.food_collision:
@@ -88,26 +110,13 @@ def move_snake(screen, settings, snake_body, snake_list):
     else:
         settings.food_collision = False
         move_pieces(screen, settings, snake_body, snake_list)
-    check_wall_or_self_collision(screen, settings, snake_body, snake_list)
 
 
 def create_snake_food(food, screen, settings):
     """Create snake food on the screen if there is none."""
-    if len(food.sprites()) == 0:
-        for x in range(settings.food_allowed):
-            new_food = Food(screen, settings)
-            food.add(new_food)
-
-
-def check_snake_food_collisions(food, screen, settings, snake_body):
-    """Check if the snake has collided with the food."""
-    collision = pygame.sprite.groupcollide(snake_body, food, False, True)
-    if collision:
-        # Add another rect to the snake body.
-        settings.food_collision = True
-
-        # Check if all the food is gone, draw more if it is.
-        create_snake_food(food, screen, settings)
+    for x in range(settings.food_allowed):
+        new_food = Food(screen, settings)
+        food.add(new_food)
 
 
 def update_screen(food, screen, settings, snake_body):
@@ -118,6 +127,9 @@ def update_screen(food, screen, settings, snake_body):
     # Redraw the snake at it's new position.
     for piece in snake_body.sprites():
         piece.draw_snake_rect()
+
+    if len(food.sprites()) == 0:
+        create_snake_food(food, screen, settings)
 
     for n in food.sprites():
         n.draw_food()
